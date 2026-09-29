@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#6C5CE7">
+<title>five seconds to DO.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(160deg, #6C5CE7 0%, #a29bfe 100%);
+    color: #2d3436;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .app { width: 100%; max-width: 420px; }
+
+  .h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #fff;
+    margin: 10px 0 4px;
+    text-align: center;
+  }
+  .h2 {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.9);
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .display {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #6C5CE7;
+    text-align: center;
+    margin: 0;
+    padding: 4px 0 0;
+    display: block;
+  }
+  .body-sm {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #888;
+    text-align: center;
+  }
+  .button {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .section-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 12px;
+  }
+  .stat-num {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #6C5CE7;
+  }
+  .stat-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+  .body {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #555;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  .today-label {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #888;
+    margin-bottom: 16px;
+  }
+  .btn-main {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 14px;
+    background: #6C5CE7;
+    color: #fff;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.2s;
+  }
+  .btn-main:active { transform: scale(0.97); background: #5a4bd1; }
+  .btn-undo {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 12px;
+    background: #f1f2f6;
+    color: #666;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-undo:active { background: #e3e4e8; }
+  .stats-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    text-align: center;
+  }
+  .stat {
+    flex: 1;
+    background: #f8f9ff;
+    border-radius: 14px;
+    padding: 12px 6px;
+  }
+  .chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 120px;
+    gap: 6px;
+  }
+  .bar-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+  }
+  .bar {
+    width: 100%;
+    background: linear-gradient(180deg, #a29bfe, #6C5CE7);
+    border-radius: 6px 6px 0 0;
+    min-height: 4px;
+    transition: height 0.3s;
+  }
+  .bar.today { background: linear-gradient(180deg, #ffd93d, #f9a825); }
+  .bar-count {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: #6C5CE7;
+    margin-bottom: 4px;
+  }
+  .bar-day {
+    font-family: 'Arial Narrow', 'Arial', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #aaa;
+    margin-top: 6px;
+  }
+  .streak {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #555;
+    padding: 6px 0;
+  }
+  .streak b {
+    font-family: 'Playfair Display', Georgia, serif;
+    color: #6C5CE7;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .tip {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+    background: #fff9e6;
+    border-left: 4px solid #ffd93d;
+    padding: 14px;
+    border-radius: 10px;
+    color: #555;
+  }
+  .note-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .note-row input {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    outline: none;
+  }
+  .note-row input:focus { border-color: #6C5CE7; }
+  .history {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 180px;
+    overflow-y: auto;
+  }
+  .history li {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #555;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .history li:last-child { border-bottom: none; }
+  .history .time {
+    font-family: 'Arial Narrow', 'Arial', sans-serif;
+    color: #aaa;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1 class="h1">five seconds to DO.</h1>
+  <div class="h2">5-4-3-2-1 — и вперёд</div>
+
+  <div class="card">
+    <div class="display" id="todayCount">0</div>
+    <div class="today-label">раз(а) сегодня получилось</div>
+    <button class="btn-main button" id="addBtn" type="button">Сделано!</button>
+    <button class="btn-undo" id="undoBtn" type="button">Отменить последнее</button>
+    <div class="note-row">
+      <input type="text" id="noteInput" placeholder="Что именно? (необязательно)" maxlength="60">
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Статистика</div>
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-num" id="statToday">0</div>
+        <div class="stat-label">Сегодня</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="statWeek">0</div>
+        <div class="stat-label">Неделя</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="statMonth">0</div>
+        <div class="stat-label">Месяц</div>
+      </div>
+    </div>
+    <div class="streak" style="margin-top:14px">🔥 Серия: <b id="streak">0</b> дней подряд</div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Последние 7 дней</div>
+    <div class="chart" id="chart"></div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Сегодня по порядку</div>
+    <ul class="history" id="history"></ul>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Совет</div>
+    <div class="tip" id="tip"></div>
+  </div>
+</div>
+
+<script>
+var STORAGE_KEY = 'five_seconds_data_v1';
+function loadData(){ try { var raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : {}; } catch(e){ return {}; } }
+function saveData(d){ localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
+var data = loadData();
+function todayKey(d){ d = d || new Date(); var y = d.getFullYear(); var m = ('0'+(d.getMonth()+1)).slice(-2); var day = ('0'+d.getDate()).slice(-2); return y+'-'+m+'-'+day; }
+function getEntries(k){ return data[k] || []; }
+function addEntry(){
+  var key = todayKey();
+  var noteEl = document.getElementById('noteInput');
+  var note = noteEl.value.trim();
+  var now = new Date();
+  var time = ('0'+now.getHours()).slice(-2)+':'+('0'+now.getMinutes()).slice(-2);
+  if(!data[key]) data[key] = [];
+  data[key].push({ time: time, note: note });
+  noteEl.value = '';
+  saveData(data); render();
+}
+function undoLast(){ var key = todayKey(); if(data[key] && data[key].length>0){ data[key].pop(); saveData(data); render(); } }
+function countDay(k){ return getEntries(k).length; }
+function countWeek(){ var t=0; var now=new Date(); for(var i=0;i<7;i++){ var d=new Date(now); d.setDate(now.getDate()-i); t+=countDay(todayKey(d)); } return t; }
+function countMonth(){ var t=0; var now=new Date(); var y=now.getFullYear(), m=now.getMonth(); for(var k in data){ var p=k.split('-'); if(+p[0]===y && (+p[1]-1)===m) t+=data[k].length; } return t; }
+function calcStreak(){ var s=0; var now=new Date(); for(var i=0;i<365;i++){ var d=new Date(now); d.setDate(now.getDate()-i); if(countDay(todayKey(d))>0){ s++; } else { if(i===0) continue; break; } } return s; }
+var DAYS_SHORT = ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
+function render(){
+  var today = todayKey();
+  var tc = countDay(today);
+  document.getElementById('todayCount').textContent = tc;
+  document.getElementById('statToday').textContent = tc;
+  document.getElementById('statWeek').textContent = countWeek();
+  document.getElementById('statMonth').textContent = countMonth();
+  document.getElementById('streak').textContent = calcStreak();
+
+  var chart = document.getElementById('chart'); chart.innerHTML = '';
+  var now = new Date(); var days = [];
+  for(var i=6;i>=0;i--){ var d=new Date(now); d.setDate(now.getDate()-i); days.push(d); }
+  var maxVal = 1;
+  for(var j=0;j<days.length;j++){ var v=countDay(todayKey(days[j])); if(v>maxVal) maxVal=v; }
+  days.forEach(function(d){
+    var key = todayKey(d); var val = countDay(key);
+    var wrap = document.createElement('div'); wrap.className='bar-wrap';
+    var cnt = document.createElement('div'); cnt.className='bar-count'; cnt.textContent = val>0?val:'';
+    var bar = document.createElement('div'); bar.className='bar'+(key===today?' today':'');
+    bar.style.height = (val/maxVal*80)+'%'; if(val===0) bar.style.height='4px';
+    var lbl = document.createElement('div'); lbl.className='bar-day'; lbl.textContent = DAYS_SHORT[d.getDay()];
+    wrap.appendChild(cnt); wrap.appendChild(bar); wrap.appendChild(lbl); chart.appendChild(wrap);
+  });
+
+  var hist = document.getElementById('history'); hist.innerHTML='';
+  var entries = getEntries(today).slice().reverse();
+  if(entries.length===0){ var li=document.createElement('li'); li.style.color='#bbb'; li.style.justifyContent='center'; li.textContent='Пока пусто — самое время начать!'; hist.appendChild(li); }
+  else { entries.forEach(function(e){ var li=document.createElement('li'); var s=document.createElement('span'); s.textContent=e.note||'✓ сделано'; var t=document.createElement('span'); t.className='time'; t.textContent=e.time; li.appendChild(s); li.appendChild(t); hist.appendChild(li); }); }
+}
+var TIPS = [
+  'Как только в голове мелькнуло «надо» — тихонько считай 5-4-3-2-1 и вставай. Мозг ещё не успеет придумать отговорку 💜',
+  'Не обязательно делать всё сразу. Помой одну тарелку, открой учебник — дальше тело само втянется 🌱',
+  'Телефон — в другую комнату. Даже не «на беззвучный», а физически подальше. Так проще 📵',
+  'Скажи вслух: «Я делаю это сейчас». Голос работает сильнее, чем мысль ✨',
+  'Попробуй «приклеить» новое к старому: помыть руки — и сразу за уроки. Так мозгу проще 🪄',
+  'Не жди настроения — оно приходит уже в процессе, а не до 💫',
+  '«Сделать всю домашку» звучит страшно. А «5 минут математики» — легко и по-дружески 🍃',
+  'Каждая отметка здесь — это маленькая победа. Мозг любит видеть прогресс 💜',
+  'Если сегодня не получилось — это нормально. Завтра будет новый шанс 🤍',
+  'Одно дело за раз. Мультизадачность съедает силу воли, а одно маленькое дело — нет 🎯',
+  'Ты не обязана быть продуктивной каждый день. Достаточно просто попробовать 🌷',
+  'Маленький шаг сегодня — это уже победа. Не сравнивай себя со вчерашней собой, сравнивай с той, кто вообще не начинала 🌸',
+  'Начни с того, что приятно. С чашки чая, с любимой песни — а потом уже за дело ☕'
+];
+document.getElementById('tip').textContent = TIPS[Math.floor(Math.random()*TIPS.length)];
+document.getElementById('addBtn').addEventListener('click', addEntry);
+document.getElementById('undoBtn').addEventListener('click', undoLast);
+render();
+</script>
+</body>
+</html>
